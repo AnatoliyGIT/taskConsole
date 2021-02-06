@@ -1,6 +1,9 @@
 <?php
 require_once 'functions.php';
 
+//$fileNamePeople = 'people-comma.csv';
+$fileNamePeople = 'people-semicolon.csv';
+
 echoToConsole('');
 echoToConsole('####################################################################');
 echoToConsole('#                  Welcome to user_text_utility!                   #');
@@ -12,8 +15,8 @@ isParametersValid($argv);
 $arg_1 = $argv[1];
 $arg_2 = $argv[2];
 
-if (!file_exists('people.csv')) {
-    error('Error! File with name people.csv not found!');
+if (!file_exists($fileNamePeople)) {
+    error('Error! File not found!');
 }
 
 $separator = '';

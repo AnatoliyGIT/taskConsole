@@ -1,7 +1,5 @@
 <?php
 
-$fileNamePeople = 'people.csv';
-
 function echoToConsole(string $str): void
 {
     echo $str . PHP_EOL;
@@ -48,23 +46,21 @@ function averageLineCount(int $user_id): float
 
 function replace(int $user_id): int
 {
-    $regexDates = '/([a-zA-Zа-яА-Я.,?\s]+)/';
-    $regexWords = '/[\s,.]+/';
+    $regexDates = '/([0-3][0-9]\/[0-1][0-9]\/[0-9]{2})/';
+    $regexWords = '/[\s]/';
     $dir = './texts';
     $files = scandir($dir);
-    $countFiles = 0;
     $countAllReplaces = 0;
+    $arrayDates = [];
     foreach ($files as $file) {
         $file_name = basename($file);
         $file_id = (int)explode('-', $file_name)[0];
-
         if ($user_id === $file_id) {
-            $countFiles++;
             $string = file_get_contents('./texts/' . $file_name);
             $words = preg_split($regexWords, $string);
-            $arrayDates = preg_split($regexDates, $string , -1 );
-            foreach ($arrayDates as $date) {
-                $countReplaces = 0;
+            preg_match_all($regexDates, $string, $arrayDates);
+            foreach ($arrayDates[0] as $date) {
+                $countDatesOfFile = 0;
                 foreach ($words as $word) {
                     if ($word === $date) {
                         $arrChars = str_split($date);
@@ -77,11 +73,11 @@ function replace(int $user_id): int
                         $date = str_replace('/', '-', $date);
                         $string = str_replace($word, $date, $string);
                         if (!is_dir('output_texts')) mkdir('output_texts');
-                        $countReplaces++;
+                        $countDatesOfFile++;
                         createNewFile($file_name, $string);
                     }
                 }
-                $countAllReplaces += $countReplaces;
+                $countAllReplaces = $countAllReplaces + $countDatesOfFile;
             }
         }
     }
