@@ -1,8 +1,7 @@
 <?php
 require_once 'functions.php';
 
-//$fileNamePeople = 'people-comma.csv';
-$fileNamePeople = 'people-semicolon.csv';
+$fileNamePeople = 'people.csv';
 
 echoToConsole('');
 echoToConsole('####################################################################');
